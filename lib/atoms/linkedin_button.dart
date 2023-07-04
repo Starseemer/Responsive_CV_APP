@@ -27,13 +27,14 @@ class _LinkedInButtonState extends State<LinkedInButton> {
           color: Color.fromARGB(119, 6, 30, 49),
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: const EdgeInsets.all(20),
+        height: 30,
+        width: 150,
         child: TextButton(
           onPressed: _launchUrl,
           child: Row(
             children: [
               SvgPicture.asset(
-                'linkedin.svg', // Replace with your LinkedIn icon asset path
+                'assets/linkedin.svg', // Replace with your LinkedIn icon asset path
                 width: 30,
                 height: 30,
                 fit: BoxFit.fitWidth,

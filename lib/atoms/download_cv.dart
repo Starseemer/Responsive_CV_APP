@@ -27,12 +27,13 @@ class _CvButtonState extends State<CvButton> {
           color: Color.fromARGB(119, 6, 30, 49),
           borderRadius: BorderRadius.circular(20),
         ),
-        padding: const EdgeInsets.all(20),
+        height: 30,
+        width: 100,
         child: TextButton(
           onPressed: get_Cv,
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.download,
                 color: Colors.white,
                 size: 30,
@@ -41,7 +42,7 @@ class _CvButtonState extends State<CvButton> {
                 width: 20,
               ),
               Text(
-                'Download CV',
+                'CV',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ],

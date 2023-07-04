@@ -13,30 +13,10 @@ import 'additional_info.dart';
 import 'package:shelf/shelf.dart';
 import 'dart:io';
 import 'package:shelf/shelf_io.dart' as shelf_io;
-
-Response downloadPDF(Request request) {
-  String filePath =
-      'web/my_file.pdf'; // Replace with the actual path of your PDF file within the web folder
-  File file = File(filePath);
-
-  if (file.existsSync()) {
-    return Response.ok(file.openRead())
-      ..headers['Content-Type'] = 'application/pdf'
-      ..headers['Content-Disposition'] = 'attachment; filename=my_file.pdf';
-  } else {
-    return Response.notFound('File not found');
-  }
-}
+import 'molecules/dock_mobile.dart';
 
 void main() async {
-  var handler = const Pipeline().addHandler(downloadPDF);
-  var server = await shelf_io.serve(handler, 'localhost', 8080);
-  WidgetsFlutterBinding.ensureInitialized();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    // Initialize your plugins here
-    // ...
-    runApp(const MyApp());
-  });
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -147,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color(0xff2F243A),
-            primary: const Color(0xff2F243A),
+            primary: Color.fromARGB(255, 127, 67, 187),
             secondary: const Color(0xff444054),
             surface: const Color(0xffBEBBBB),
             inversePrimary: Color(0xffDB8A74)),
@@ -213,11 +193,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 const ProjectsPage(),
                 const AdditionalPage(),
               ]),
-          SideDock(
-            icons: _iconDataList,
-            index: _selectedIconIndex,
-            selectIcon: _selectIcon,
-          ),
+          MediaQuery.of(context).size.width > 880
+              ? SideDock(
+                  icons: _iconDataList,
+                  index: _selectedIconIndex,
+                  selectIcon: _selectIcon,
+                )
+              : DockMobile(
+                  index: _selectedIconIndex,
+                  selectIcon: _selectIcon,
+                  icons: _iconDataList)
         ],
       )),
     );

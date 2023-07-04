@@ -32,7 +32,7 @@ class BulletPointText extends StatelessWidget {
             child: Text(this.text,
                 softWrap: true,
                 style: style,
-                maxLines: 4,
+                maxLines: MediaQuery.of(context).size.height < 400 ? 4 : 10,
                 overflow: TextOverflow.ellipsis),
           ),
           SizedBox(

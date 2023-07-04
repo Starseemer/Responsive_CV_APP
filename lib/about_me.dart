@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'atoms/linkedin_button.dart';
 import 'atoms/download_cv.dart';
+import 'molecules/custom_fab_menu.dart';
 
 class AboutMePage extends StatelessWidget {
   const AboutMePage({super.key});
@@ -10,7 +11,7 @@ class AboutMePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var about_me = '''
-Hello, my name is [Your Name], and I am a dedicated M.Sc. Computer Science student at the University of Freiburg. With a passion for technology and a drive to innovate, I have gained valuable experience through my professional journey.
+Hello, my name is Berk Yildizgorer, and I am a dedicated M.Sc. Computer Science student at the University of Freiburg. With a passion for technology and a drive to innovate, I have gained valuable experience through my professional journey.
 
 During my time at Siemens, I worked as a Software Developer in the Technology and Innovation department. As a full-stack developer, I had the opportunity to design and develop a global fire tracking and satellite imagery API and frontend. This project involved harnessing the power of various technologies such as Liveua Map API, NASA FIRMS API, SkyWatch API, OpenLayer map service, Geoserver, Docker, NodeJS, and ReactJS.
 
@@ -32,11 +33,14 @@ Thank you for taking the time to learn a little about me. I look forward to enga
         children: [
           BlurryContainer(
                   color: Color.fromARGB(119, 6, 30, 49),
+                  padding: EdgeInsets.all(8),
                   blur: 10,
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
                   child: Text(
                     'About Me',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: MediaQuery.of(context).size.width < 880
+                        ? Theme.of(context).textTheme.titleMedium
+                        : Theme.of(context).textTheme.titleLarge,
                   ).animate().shimmer(
                       duration: const Duration(seconds: 3),
                       color: Colors.white,
@@ -53,7 +57,7 @@ Thank you for taking the time to learn a little about me. I look forward to enga
                         const Color.fromARGB(255, 125, 130, 180),
                         const Color.fromARGB(255, 212, 213, 220),
                       ],
-                      curve: Curves.easeInOut))
+                      curve: Curves.easeIn))
               .animate()
               .moveY(
                   begin: 30,
@@ -62,74 +66,36 @@ Thank you for taking the time to learn a little about me. I look forward to enga
                   curve: Curves.easeInOut,
                   duration: Duration(milliseconds: 500)),
           const SizedBox(
-            height: 30,
+            height: 10,
           ),
-          Center(
-            child: BlurryContainer(
-              color: const Color.fromARGB(119, 6, 30, 49),
-              height: MediaQuery.sizeOf(context).height * 0.65,
-              width: MediaQuery.sizeOf(context).width * 0.6,
-              padding: const EdgeInsets.all(30),
-              blur: 10,
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              child: Container(
-                  margin: const EdgeInsets.all(10.0),
-                  child: Text(
-                    '$about_me',
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  )),
+          Stack(alignment: Alignment.bottomRight, children: [
+            Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: 200,
+                ),
+                child: BlurryContainer(
+                  color: const Color.fromARGB(119, 6, 30, 49),
+                  height: MediaQuery.sizeOf(context).height * 0.65,
+                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  padding: const EdgeInsets.all(30),
+                  blur: 10,
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          '$about_me',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      )),
+                ),
+              ),
             ),
-          ),
+            Align(alignment: Alignment.bottomRight, child: FabMenu()),
+          ]),
           SizedBox(
             height: 20,
-          ),
-          Container(
-            width: MediaQuery.sizeOf(context).width * 0.6,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                BlurryContainer(
-                    color: Color.fromARGB(119, 6, 30, 49),
-                    padding: const EdgeInsets.all(20),
-                    blur: 10,
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    child: SelectableText(
-                      'berkyldzgorer@gmail.com',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    )),
-                const SizedBox(
-                  width: 20,
-                ),
-                BlurryContainer(
-                    color: Color.fromARGB(119, 6, 30, 49),
-                    padding: const EdgeInsets.all(20),
-                    blur: 10,
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    child: SelectableText(
-                      '+49 176 7980 8498',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    )),
-                const SizedBox(
-                  width: 20,
-                ),
-                LinkedInButton(),
-                const SizedBox(
-                  width: 20,
-                ),
-                CvButton(),
-              ],
-            )
-                .animate()
-                .fadeIn(
-                  delay: const Duration(milliseconds: 200),
-                  duration: const Duration(milliseconds: 500),
-                )
-                .shimmer(
-                  duration: const Duration(milliseconds: 2500),
-                  delay: const Duration(milliseconds: 100),
-                  color: const Color.fromARGB(179, 55, 80, 135),
-                  curve: Curves.ease,
-                ),
           ),
         ],
       ),

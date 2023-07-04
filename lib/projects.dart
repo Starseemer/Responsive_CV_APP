@@ -1,6 +1,7 @@
 import 'package:cv_web_site/atoms/bullet_point_text.dart';
 import 'package:flutter/material.dart';
 import 'molecules/info_card.dart';
+import 'molecules/info_card_mobile.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:math';
 import 'package:blurrycontainer/blurrycontainer.dart';
@@ -16,6 +17,7 @@ class ProjectsPage extends StatefulWidget {
 class _ProjectsPageState extends State<ProjectsPage> {
   PageController _pageController = PageController();
   double _currentPage = 0;
+  double _viewportFraction = 0.8;
 
   @override
   void initState() {
@@ -23,7 +25,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
     _pageController = PageController(
         initialPage: _currentPage.toInt(),
         keepPage: false,
-        viewportFraction: 0.5);
+        viewportFraction: _viewportFraction);
     _pageController.addListener(() {
       setState(() {
         _currentPage = _pageController.page!.toDouble();
@@ -37,8 +39,30 @@ class _ProjectsPageState extends State<ProjectsPage> {
     super.dispose();
   }
 
+  double calculateViewportFraction(double width) {
+    // Define your desired logic to calculate the viewportFraction
+    if (width < 880) {
+      return 0.8;
+    } else {
+      return 0.6;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _viewportFraction =
+        calculateViewportFraction(MediaQuery.of(context).size.width);
+    _pageController = PageController(
+        initialPage: _currentPage.toInt(),
+        keepPage: false,
+        viewportFraction: _viewportFraction);
+
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page!.toDouble();
+      });
+    });
+
     List<BulletPointText> points = [
       BulletPointText(
           text:
@@ -49,11 +73,22 @@ class _ProjectsPageState extends State<ProjectsPage> {
       BulletPointText(
           text:
               "Used programming languages: Java, JavaScript, Python, PHP, HTML & CSS"),
-      BulletPointText(text: "Used Softwares: Apache, Ubuntu Server 19.04"),
+      BulletPointText(text: "Used Softwares: Apache, Ubuntu Server 19.04\n"),
     ];
 
     List<InfoCard> items = [
       InfoCard(
+          instution:
+              "Indoor Location System and Real Time Location System (RTLS)",
+          location: "",
+          title: "",
+          start_date: "June 2019",
+          end_date: "June 2020",
+          bullet_points: points),
+    ];
+
+    List<InfoCardMobile> mob_items = [
+      InfoCardMobile(
           instution:
               "Indoor Location System and Real Time Location System (RTLS)",
           location: "",
@@ -83,11 +118,14 @@ class _ProjectsPageState extends State<ProjectsPage> {
       children: [
         BlurryContainer(
                 color: Color.fromARGB(119, 6, 30, 49),
+                padding: EdgeInsets.all(8),
                 blur: 10,
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                 child: Text(
                   'Projects',
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: MediaQuery.of(context).size.width < 880
+                      ? Theme.of(context).textTheme.titleMedium
+                      : Theme.of(context).textTheme.titleLarge,
                 ).animate().shimmer(
                     duration: const Duration(seconds: 3),
                     color: Colors.white,
@@ -104,7 +142,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
                       Color.fromARGB(255, 125, 130, 180),
                       Color.fromARGB(255, 212, 213, 220),
                     ],
-                    curve: Curves.easeInOut))
+                    curve: Curves.easeIn))
             .animate()
             .moveY(
                 begin: 30,
@@ -116,13 +154,18 @@ class _ProjectsPageState extends State<ProjectsPage> {
           height: 30,
         ),
         GestureDetector(
-          onTapDown: (TapDownDetails details) => onTapDown(context, details),
+          onTapDown: (TapDownDetails details) =>
+              MediaQuery.of(context).size.width < 880
+                  ? Null
+                  : onTapDown(context, details),
           child: Center(
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: Center(
                 child: Container(
-                  height: 500,
+                  height: MediaQuery.of(context).size.width < 880
+                      ? MediaQuery.of(context).size.height * 0.8
+                      : MediaQuery.of(context).size.height * 0.5,
                   child: PageView.builder(
                     controller: _pageController,
 
@@ -140,7 +183,9 @@ class _ProjectsPageState extends State<ProjectsPage> {
                           ..rotateY(angle) // Rotate along Y-axis
                           ..scale(scale), // Scale based on position
                         alignment: Alignment.center,
-                        child: items[index],
+                        child: MediaQuery.of(context).size.width < 880
+                            ? mob_items[index]
+                            : items[index],
                       );
                     },
                   ),
