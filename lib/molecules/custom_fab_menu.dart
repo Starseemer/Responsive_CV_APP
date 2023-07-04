@@ -49,17 +49,11 @@ class _FabMenuState extends State<FabMenu> with SingleTickerProviderStateMixin {
     });
   }
 
-  void downloadCV() async {
-    print("""Download CV""");
-    final pdfController = PdfController(
-      document: PdfDocument.openAsset('web/Berk_Yildizgorer_CV.pdf'),
-    );
-
-    PdfView view = PdfView(
-      controller: pdfController,
-    );
-
-    print("""Complete Download CV""");
+  void downloadPDF() {
+    final anchor = AnchorElement();
+    anchor.href = 'Berk_Yildizgorer_CV.pdf';
+    anchor.download = 'Berk_Yildizgorer_CV.pdf';
+    anchor.click();
   }
 
   final Uri _url = Uri.parse(
@@ -80,7 +74,7 @@ class _FabMenuState extends State<FabMenu> with SingleTickerProviderStateMixin {
         _buildMenuItem(context, Icons.email, 'berkyldzgorer@gmail.com', null),
         _buildMenuItem(context, Icons.phone, '+49 176 7980 8498', null),
         _buildMenuItem(context, Bootstrap.linkedin, 'LinkedIn', _launchUrl),
-        _buildMenuItem(context, Icons.download, 'Download CV', downloadCV),
+        _buildMenuItem(context, Icons.download, 'Download CV', downloadPDF),
         Padding(
           padding:
               EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.1),

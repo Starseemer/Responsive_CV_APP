@@ -1,6 +1,6 @@
-# cv_web_site
+# Responsive CV App
 
-A new Flutter project.
+This app has been created purely with Flutter.
 
 ## Getting Started
 
