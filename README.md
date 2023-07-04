@@ -2,6 +2,8 @@
 
 This app has been created purely with Flutter.
 
+You can find the prod verison in [here](https://starseemer.github.io/)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
